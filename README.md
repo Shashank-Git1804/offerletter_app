@@ -1,6 +1,8 @@
 # Offer Letter App
 
-A full-stack web application for managing employee offer letters, built for **Ramaiah Institute of Business Studies (RIBS)**. It allows HR teams and admins to create, manage, send, and track offer letters for candidates end-to-end.
+A full-stack web application for managing employee offer letters, originally built for **AMC Engineering College** and currently adapted for use at **Ramaiah Institute of Business Studies (RIBS)**. It allows HR teams and admins to create, manage, send, and track offer letters for candidates end-to-end.
+
+> **Note:** This project was initially developed for AMC Engineering College. It has since been repurposed and configured for Ramaiah Institute of Business Studies (RIBS). The codebase is institution-agnostic — the company name and logo are fully configurable via environment variables (`COMPANY_NAME`, `COMPANY_LOGO_URL`), making it easy to adapt for any organization.
 
 ---
 
@@ -459,6 +461,219 @@ The frontend starts on `http://localhost:5173`.
 - SMTP credentials in `.env.development` should use Gmail App Passwords, not your real Gmail password
 - AWS IAM user for S3 should have least-privilege permissions (only `s3:PutObject`, `s3:GetObject` on the specific bucket)
 - The `sanitize` middleware strips `$` and `.` keys but does not replace a proper parameterized query strategy — Sequelize ORM already handles SQL injection via parameterized queries
+
+---
+
+## Local Setup Guide (For Beginners)
+
+This guide assumes you have nothing installed — no VS Code, no Node.js, nothing.
+
+### What You Need to Install
+
+| # | Tool | Why |
+|---|---|---|
+| 1 | VS Code | Code editor to open and edit files |
+| 2 | Node.js | Runs the backend and frontend |
+| 3 | Git | To download the project from GitHub |
+| 4 | Redis | Caching service used by the backend |
+| 5 | npm packages | All code libraries (installed automatically via `npm install`) |
+
+> No need to install PostgreSQL — the database is hosted online on **Neon** (already configured). AWS S3 is optional for basic local use.
+
+---
+
+### Step 1 — Install VS Code
+
+1. Go to: **https://code.visualstudio.com**
+2. Click the big blue **Download for Windows** button
+3. Run the downloaded `.exe` file and click **Next → Next → Install → Finish**
+4. Open VS Code from your Desktop or Start Menu
+
+---
+
+### Step 2 — Install Node.js
+
+Node.js runs this project. It also installs `npm` (the package manager) automatically.
+
+1. Go to: **https://nodejs.org**
+2. Click the **LTS** version (says "Recommended for most users")
+3. Run the downloaded `.msi` installer → click **Next → Next → Install → Finish**
+4. Verify — open **Command Prompt** (search "cmd" in Windows search) and type:
+   ```
+   node --version
+   ```
+   Expected output: `v22.x.x`
+   ```
+   npm --version
+   ```
+   Expected output: `10.x.x`
+
+---
+
+### Step 3 — Install Git
+
+Git is used to download the project code from GitHub.
+
+1. Go to: **https://git-scm.com/download/win**
+2. The download starts automatically — run the `.exe`
+3. Click **Next** on every screen (default options are fine) → **Install → Finish**
+4. Verify — open **Command Prompt** and type:
+   ```
+   git --version
+   ```
+   Expected output: `git version 2.x.x`
+
+---
+
+### Step 4 — Install Redis (Windows)
+
+Redis is a background service the backend uses for caching.
+
+1. Go to: **https://github.com/microsoftarchive/redis/releases**
+2. Download the file named **Redis-x64-3.0.504.msi** (or the latest `.msi`)
+3. Run the installer → click **Next → Next → Install → Finish**
+4. Redis will now run automatically as a Windows service in the background
+5. Verify — open **Command Prompt** and type:
+   ```
+   redis-cli ping
+   ```
+   Expected output: `PONG`
+
+> If `redis-cli` is not found, search for "Redis" in your Start Menu and open the Redis CLI from there.
+
+---
+
+### Step 5 — Download the Project
+
+1. Open **Command Prompt**
+2. Navigate to where you want to save the project (e.g. Desktop):
+   ```
+   cd Desktop
+   ```
+3. Clone the project:
+   ```
+   git clone https://github.com/Shashank-Git1804/offerletter_app.git
+   ```
+4. Enter the project folder:
+   ```
+   cd offerletter_app
+   ```
+
+---
+
+### Step 6 — Open in VS Code
+
+In **Command Prompt** (still inside the `offerletter_app` folder), type:
+```
+code .
+```
+
+> If `code .` doesn't work, open VS Code manually → **File → Open Folder** → select the `offerletter_app` folder.
+
+---
+
+### Step 7 — Install Backend Dependencies
+
+1. In VS Code, open the Terminal (top menu → **Terminal → New Terminal**)
+2. Navigate to the backend folder:
+   ```
+   cd backend
+   ```
+3. Install all packages:
+   ```
+   npm install
+   ```
+   Wait for it to finish. A `node_modules` folder will appear.
+
+---
+
+### Step 8 — Install Frontend Dependencies
+
+1. In the same terminal, go to the frontend folder:
+   ```
+   cd ../frontend
+   ```
+2. Install all packages:
+   ```
+   npm install
+   ```
+
+---
+
+### Step 9 — Set Up the Frontend Environment File
+
+The backend already has a working `.env.development` file. For the frontend:
+
+1. Inside the `frontend/` folder, check if a `.env` file exists
+2. If it doesn't, in VS Code right-click the `frontend` folder → **New File** → name it `.env`
+3. Add this single line:
+   ```
+   VITE_API_URL=http://localhost:5000
+   ```
+4. Save the file
+
+---
+
+### Step 10 — Run the Project
+
+You need **two terminals** running at the same time.
+
+**Terminal 1 — Start the Backend:**
+```bash
+cd backend
+npm run dev
+```
+Expected output:
+```
+Server running on port 5000 [development]
+All models synced to Neon DB
+Cron jobs started
+```
+
+**Terminal 2 — Start the Frontend** (click the `+` icon in the terminal panel to open a new one):
+```bash
+cd frontend
+npm run dev
+```
+Expected output:
+```
+  VITE v8.x.x  ready in ...ms
+  ➜  Local:   http://localhost:5173/
+```
+
+---
+
+### Step 11 — Open the App
+
+Open your browser (Chrome, Edge, etc.) and go to:
+
+**http://localhost:5173**
+
+You will see the Login page. Register a new account to get started.
+
+---
+
+### Setup Checklist
+
+- [ ] VS Code installed
+- [ ] Node.js (LTS) installed — `node --version` works
+- [ ] Git installed — `git --version` works
+- [ ] Redis installed and running — `redis-cli ping` returns `PONG`
+- [ ] Project cloned from GitHub
+- [ ] `npm install` done inside `backend/`
+- [ ] `npm install` done inside `frontend/`
+- [ ] `frontend/.env` created with `VITE_API_URL=http://localhost:5000`
+- [ ] Backend running on port 5000
+- [ ] Frontend running on port 5173
+- [ ] App opens at `http://localhost:5173`
+
+> If you get any error, copy the exact error message and search it. Most Node.js and Redis install errors on Windows are fixed by restarting Command Prompt after installation, or running it as Administrator.
+
+---
+
+## Origin
+
+This project was originally developed as an internal tool for **AMC Engineering College** to manage their HR offer letter workflow. It has since been adapted and redeployed for **Ramaiah Institute of Business Studies (RIBS)**. The application is fully institution-agnostic — switching it to any other organization only requires updating `COMPANY_NAME` and `COMPANY_LOGO_URL` in the environment variables.
 
 ---
 
